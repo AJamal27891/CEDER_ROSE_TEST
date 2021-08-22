@@ -21,59 +21,6 @@ According to the __CLT__ _Centerla limit theorem_ the independent variables tend
 The following data points were created randomly two independent variables from a normal distribution and binary target data representing classification decisions similar to __\[lend or not\]__.  
 
 
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib as mpl
-
-np.random.seed(24)
-x = np.random.normal(0,1,1000)
-y = np.random.normal(0,1,1000)
-targets = np.random.choice(2,1000,1)
-cmap = (mpl.colors.ListedColormap(['k', 'r']))
-fig, (ax1,ax2,ax3) = plt.subplots(1,3)
-fig.set_figheight(5)
-fig.set_figwidth(15)
-ax1.scatter(x,y,c= targets,cmap=cmap)
-ax1.axhline(y=0, color='k')
-ax1.axvline(x=0, color='k')
-ax1.set_title(f'Original data')
-#----------Linear classification--------------
-from sklearn.linear_model import LinearRegression
-lr = LinearRegression()
-data = np.array([np.array(x) for x in zip(x,y)])
-lr.fit(data,targets)
-linear_predictions = lr.predict(data)
-linear_predictions = [round(x) for x in linear_predictions ]
-def accuracy(true,pred):
-    t = 0
-    for x in range(len(true)):
-        if true[x] == pred[x]:
-            t +=1
-    return t/len(true)            
-socore = accuracy(targets,linear_predictions)
-ax2.scatter(x,y,c=linear_predictions,cmap=cmap,label=f'linear classification f1={socore}')
-ax2.axhline(y=0, color='k')
-ax2.axvline(x=0, color='k')
-ax2.set_title(f'linear classification accuracy ={socore *100 }%')
-#-----------------Non-linear classification-----------
-from sklearn.neighbors import KNeighborsClassifier
-clf = KNeighborsClassifier()
-clf.fit(data,targets)
-nonlinear_prediction = clf.predict(data)
-def accuracy(true,pred):
-    t = 0
-    for x in range(len(true)):
-        if true[x] == pred[x]:
-            t +=1
-    return t/len(true)            
-socore = accuracy(targets,nonlinear_prediction)
-ax3.scatter(x,y,c=nonlinear_prediction,cmap=cmap)
-ax3.axhline(y=0, color='k')
-ax3.axvline(x=0, color='k')
-ax3.set_title(f'KNN classification accuracy ={round(socore,2) *100 }%');
-```
-
 
 ![png](output_1_0.png)
 
